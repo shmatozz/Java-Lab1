@@ -1,4 +1,5 @@
 import java.text.DecimalFormat;
+import java.util.Scanner;
 
 public class Complex {
     static DecimalFormat round = new DecimalFormat("#.###");
@@ -16,11 +17,29 @@ public class Complex {
     }
 
 
+    void get() {
+        Scanner in = new Scanner(System.in);
+        System.out.print("real and imag: ");
+        this.real = in.nextDouble();
+        this.imag = in.nextDouble();
+    }
     void print() {
         if (this.imag > 0) {
-            System.out.println(round.format(real) + " + " + round.format(imag) + "j");
+            System.out.print(round.format(real) + " + " + round.format(imag) + "j ");
+        } else if (this.imag < 0){
+            System.out.print(round.format(real) + " - " + (round.format(imag * -1)) + "j ");
         } else {
+            System.out.print(round.format(real) + " ");
+        }
+    }
+
+    void println() {
+        if (this.imag > 0) {
+            System.out.println(round.format(real) + " + " + round.format(imag) + "j");
+        } else if (this.imag < 0){
             System.out.println(round.format(real) + " - " + (round.format(imag * -1)) + "j");
+        } else {
+            System.out.println(round.format(real));
         }
     }
 
