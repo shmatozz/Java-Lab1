@@ -43,14 +43,24 @@ public class Complex {
         }
     }
 
-    Complex add(Complex second) {
+    void add(Complex second) {
+        this.real += second.real;
+        this.imag += second.imag;
+    }
+
+    void sub(Complex second) {
+        this.real -= second.real;
+        this.imag -= second.imag;
+    }
+
+    Complex sum(Complex second) {
         Complex temp = new Complex();
         temp.real = this.real + second.real;
         temp.imag = this.imag + second.imag;
         return temp;
     }
 
-    Complex dec(Complex second) {
+    Complex diff(Complex second) {
         Complex temp = new Complex();
         temp.real = this.real - second.real;
         temp.imag = this.imag - second.imag;
