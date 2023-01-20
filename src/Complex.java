@@ -4,6 +4,7 @@ import java.util.Scanner;
 public class Complex {
     static DecimalFormat round = new DecimalFormat("#.###");
     double real, imag;
+    static double error = 1 * Math.pow(10, -10);
     Complex() {
         this(0, 0);
     }
@@ -34,9 +35,9 @@ public class Complex {
     }
 
     void println() {
-        if (this.imag > 0) {
+        if (this.imag > 0 + error) {
             System.out.println(round.format(real) + " + " + round.format(imag) + "j");
-        } else if (this.imag < 0){
+        } else if (this.imag < 0 - error){
             System.out.println(round.format(real) + " - " + (round.format(imag * -1)) + "j");
         } else {
             System.out.println(round.format(real));
@@ -86,11 +87,15 @@ public class Complex {
     }
 
     double arg() {
-        return Math.atan(this.imag / this.real);
+        if (this.real > 0) return Math.atan(this.imag / this.real);
+        else if (this.real < 0 && this.imag >= 0) return Math.PI + Math.atan(this.imag / this.real);
+        else if (this.real < 0 && this.imag < 0) return -Math.PI + Math.atan(this.imag / this.real);
+        else if (this.real == 0 && this.imag > 0) return Math.PI / 2;
+        else return -Math.PI / 2;
     }
 
     Complex pow(int n) {
-        Complex temp = new Complex();
+        Complex temp = new Complex(this);
         temp.real = Math.pow(this.abs(), n) * Math.cos(n * this.arg());
         temp.imag = Math.pow(this.abs(), n) * Math.sin(n * this.arg());
         return temp;

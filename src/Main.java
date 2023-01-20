@@ -39,9 +39,10 @@ class Main {
         number2.sqrt(3).println();
 
         System.out.println("\n--- Matrix ---");
-        Matrix matrix1 = new Matrix(2, 2, number1), matrix2 = new Matrix(2, 2, number2);
+        Matrix matrix1 = new Matrix(2, 2, number1), matrix2 = new Matrix(10, 10, number2);
         System.out.println("matrix1:"); matrix1.print();
         System.out.println("matrix2:"); matrix2.print();
+        //matrix2.fill();
 
         System.out.println("\nmatrix1 += matrix2 (in-place):");
         matrix1.add(matrix2);   // In-place addition
@@ -70,8 +71,11 @@ class Main {
         matrix1.print();
 
         System.out.println("(matrix2)^2:");   // Testing pow of matrix
-        matrix2.pow(2);
+        matrix2.pow(1);
         matrix2.print();
+
+        System.out.println("det(matrix2):");
+        matrix2.determinant().println();
     }
 
 }

@@ -128,5 +128,34 @@ public class Matrix {
         }
     }
 
+    Complex determinant() {
+        if (this.n != this.m) {
+            System.out.println("DimensionError(det): determinant available only for square matrix");
+            System.exit(0);
+        }
+        final Complex det = new Complex(0, 0);
+        if (this.n == 1) return matrix[0][0];
+        else {
+            Complex t = new Complex(0, 0);
+            Complex minus1 = new Complex(-1, 0);
+            for (int i = 0; i < this.m; i++) {
+                t.add(minus1.pow(i).mul(minor(this, i).determinant().mul(this.matrix[0][i])));
+            }
+            det.add(t);
+        }
+        return det;
+    }
+
+    private Matrix minor(Matrix matrix, int col) {
+        Matrix temp = new Matrix(matrix.n - 1, matrix.m - 1);
+        for (int i = 1; i < matrix.n; i++) {
+            int flag = 0;
+            for (int j = 0; j < matrix.m; j++) {
+                if (j == col) { flag = 1; continue; }
+                temp.matrix[i - 1][j - flag] = matrix.matrix[i][j];
+            }
+        }
+        return temp;
+    }
 
 }
