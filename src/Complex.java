@@ -3,8 +3,9 @@ import java.util.Scanner;
 
 public class Complex {
     static DecimalFormat round = new DecimalFormat("#.###");
+    static double error = 0.0000000000001;
+
     double real, imag;
-    static double error = 1 * Math.pow(10, -10);
     Complex() {
         this(0, 0);
     }
@@ -25,7 +26,9 @@ public class Complex {
         this.imag = in.nextDouble();
     }
     void print() {
-        if (this.imag > 0) {
+        if (this.real == 0 && this.imag != 0) {
+            System.out.print(round.format(imag) + "j ");
+        } else if (this.imag > 0) {
             System.out.print(round.format(real) + " + " + round.format(imag) + "j ");
         } else if (this.imag < 0){
             System.out.print(round.format(real) + " - " + (round.format(imag * -1)) + "j ");
@@ -35,11 +38,14 @@ public class Complex {
     }
 
     void println() {
-        if (this.imag > 0 + error) {
+        if (Math.abs(this.real) < error && Math.abs(this.imag) > error) {
+            System.out.println(round.format(imag) + "j");
+        } else if (this.imag > error) {
             System.out.println(round.format(real) + " + " + round.format(imag) + "j");
-        } else if (this.imag < 0 - error){
+        } else if (this.imag < -error){
             System.out.println(round.format(real) + " - " + (round.format(imag * -1)) + "j");
         } else {
+            if (Math.abs(real) < error && real < 0) this.real = 0;
             System.out.println(round.format(real));
         }
     }
@@ -106,5 +112,18 @@ public class Complex {
         temp.real = Math.pow(this.abs(), 1.0/n) * Math.cos(this.arg() / n);
         temp.imag = Math.pow(this.abs(), 1.0/n) * Math.sin(this.arg() / n);
         return temp;
+    }
+
+    String asString() {
+        if (Math.abs(this.real) < error && Math.abs(this.imag) > error) {       // real = 0 & imag != 0
+            return round.format(imag) + "j ";
+        } else if (this.imag > error) {     // imag > 0
+            return round.format(real) + " + " + round.format(imag) + "j ";
+        } else if (this.imag < -error){     // imag < 0
+            return round.format(real) + " - " + (round.format(imag * -1)) + "j ";
+        } else {
+            if (Math.abs(real) < error && real < 0) this.real = 0;
+            return round.format(real) + " ";
+        }
     }
 }

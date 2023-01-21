@@ -1,8 +1,14 @@
+import java.util.Random;
+
+
 public class Matrix {
     Complex[][] matrix;
     int n, m;
     Matrix(int n, int m) {
         this(n, m, new Complex());
+    }
+    Matrix(int n, int m, double val) {
+        this(n, m, new Complex(val, 0));
     }
     Matrix(int n, int m, Complex val) {
         this.n = n; this.m = m;
@@ -21,16 +27,42 @@ public class Matrix {
 
     void print() {
         for (int i = 0; i < n; i++) {
-            for (int j = 0; j < m; j++) { matrix[i][j].print(); }
+            for (int j = 0; j < m; j++) { System.out.printf(" %-8s", matrix[i][j].asString()); }
             System.out.print('\n');
         }
     }
+
     void fill() {
         for (int i = 0; i < n; i++) {
             System.out.println("Row " + (i + 1));
             for (int j = 0; j < m; j++) {
                 System.out.print("matrix[" + i + ']' + '[' + j + "] = ");
                 matrix[i][j].get();
+            }
+        }
+    }
+    void fillRandInt() {
+        Random random = new Random();
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                matrix[i][j].real = random.nextInt() % 10;
+            }
+        }
+    }
+    void fillRandDouble() {
+        Random random = new Random();
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                matrix[i][j].real = random.nextDouble();
+            }
+        }
+    }
+    void fillRandComplex() {
+        Random random = new Random();
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                matrix[i][j].real = random.nextInt() % 10;
+                matrix[i][j].imag = random.nextInt() % 10;
             }
         }
     }
@@ -101,6 +133,11 @@ public class Matrix {
             for (int j = 0; j < m; j++) { this.matrix[i][j] = this.matrix[i][j].mul(number); }
         }
     }
+    void mul_number(double number) {
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) { this.matrix[i][j].real *= number; this.matrix[i][j].imag *= number; }
+        }
+    }
 
     void T() {
         Matrix temp = new Matrix(this.m, this.n);
@@ -136,26 +173,52 @@ public class Matrix {
         final Complex det = new Complex(0, 0);
         if (this.n == 1) return matrix[0][0];
         else {
-            Complex t = new Complex(0, 0);
             Complex minus1 = new Complex(-1, 0);
             for (int i = 0; i < this.m; i++) {
-                t.add(minus1.pow(i).mul(minor(this, i).determinant().mul(this.matrix[0][i])));
+                det.add(minus1.pow(i).mul(minor(this, 0, i).determinant().mul(this.matrix[0][i])));
             }
-            det.add(t);
         }
         return det;
     }
 
-    private Matrix minor(Matrix matrix, int col) {
+    private Matrix minor(Matrix matrix, int row, int col) {
         Matrix temp = new Matrix(matrix.n - 1, matrix.m - 1);
-        for (int i = 1; i < matrix.n; i++) {
-            int flag = 0;
+        int flag_row = 0, flag_col;
+        for (int i = 0; i < matrix.n; i++) {
+            if (i == row) {flag_row = 1; continue;}
+            flag_col = 0;
             for (int j = 0; j < matrix.m; j++) {
-                if (j == col) { flag = 1; continue; }
-                temp.matrix[i - 1][j - flag] = matrix.matrix[i][j];
+                if (j == col) { flag_col = 1; continue; }
+                temp.matrix[i - flag_row][j - flag_col] = matrix.matrix[i][j];
             }
         }
         return temp;
     }
 
+    Matrix inverse() {
+        if (this.n != this.m) {
+            System.out.println("DimensionError(inv): inverse matrix available only for square matrix");
+            return this;
+        }
+        if (this.n == 1) {
+            System.out.println("DimensionError(inv): too small matrix");
+            return this;
+        }
+        Complex det = this.determinant();
+        if (det.real == 0 && det.imag == 0) {
+            System.out.println("MathError(inv): inverse matrix is NOT available for singular matrix");
+            return this;
+        }
+        final Matrix minor_matrix = new Matrix(this.n, this.m);
+        Complex minus1 = new Complex(-1, 0);
+        for (int i = 0; i < this.n; i++) {
+            for (int j = 0; j < this.m; j++) {
+                minor_matrix.matrix[i][j] = minor(this, i, j).determinant().mul(minus1.pow(i + j));
+            }
+        }
+        Complex a = new Complex(1, 0);
+        minor_matrix.T();
+        minor_matrix.mul_number(a.div(det));
+        return minor_matrix;
+    }
 }
