@@ -1,15 +1,43 @@
 import java.util.Random;
 
-
+/**
+ * Класс матриц
+ */
 public class Matrix {
+    /**
+     * Инициализация матрицы
+     */
     Complex[][] matrix;
+    /**
+     * Размерность матрицы
+     */
     int n, m;
+
+    /**
+     * Конструктор по размерности
+     * @param n кол-во строк
+     * @param m кол-во столбцов
+     */
     Matrix(int n, int m) {
         this(n, m, new Complex());
     }
+
+    /**
+     * Конструктор по размерности с заполнением одинаковым действительным числом
+     * @param n кол-во строк
+     * @param m кол-во столбцов
+     * @param val число для заполнения
+     */
     Matrix(int n, int m, double val) {
         this(n, m, new Complex(val, 0));
     }
+
+    /**
+     * Конструктор по размерности с заполнением одинаковым комплексным числом
+     * @param n кол-во строк
+     * @param m кол-во столбоцов
+     * @param val число для заполнения
+     */
     Matrix(int n, int m, Complex val) {
         this.n = n; this.m = m;
         matrix = new Complex[n][m];
@@ -17,6 +45,11 @@ public class Matrix {
             for (int j = 0; j < m; j++) { matrix[i][j] = new Complex(val); }
         }
     }
+
+    /**
+     * Конструктор копирования
+     * @param second копируемая матрица
+     */
     Matrix(Matrix second) {
         this.n = second.n; this.m = second.m;
         matrix = new Complex[n][m];
@@ -25,13 +58,9 @@ public class Matrix {
         }
     }
 
-    void print() {
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < m; j++) { System.out.printf(" %-8s", matrix[i][j].asString()); }
-            System.out.print('\n');
-        }
-    }
-
+    /**
+     * Заполнение матрицы
+     */
     void fill() {
         for (int i = 0; i < n; i++) {
             System.out.println("Row " + (i + 1));
@@ -41,6 +70,10 @@ public class Matrix {
             }
         }
     }
+
+    /**
+     * Заполнение случайными целыми числами
+     */
     void fillRandInt() {
         Random random = new Random();
         for (int i = 0; i < n; i++) {
@@ -49,6 +82,10 @@ public class Matrix {
             }
         }
     }
+
+    /**
+     * Заполнение случайными вещественными числами
+     */
     void fillRandDouble() {
         Random random = new Random();
         for (int i = 0; i < n; i++) {
@@ -57,6 +94,10 @@ public class Matrix {
             }
         }
     }
+
+    /**
+     * Заполнение случайными комплексными числами
+     */
     void fillRandComplex() {
         Random random = new Random();
         for (int i = 0; i < n; i++) {
@@ -67,6 +108,10 @@ public class Matrix {
         }
     }
 
+    /**
+     * Добавление к матрице
+     * @param second добавляемая матрица
+     */
     void add(Matrix second) {
         if (this.n != second.n || this.m != second.m) {
             System.out.println("DimensionError(+): matrices have different dim");
@@ -77,6 +122,10 @@ public class Matrix {
         }
     }
 
+    /**
+     * Вычитание из матрицы
+     * @param second вычитаемая матрица
+     */
     void sub(Matrix second) {
         if (this.n != second.n || this.m != second.m) {
             System.out.println("DimensionError(-): matrices have different dim");
@@ -87,6 +136,11 @@ public class Matrix {
         }
     }
 
+    /**
+     * Сумма матриц
+     * @param second второе слагаемое
+     * @return матрица поэлементнной суммы
+     */
     Matrix sum(Matrix second) {
         if (this.n != second.n || this.m != second.m) {
             System.out.println("DimensionError(+): matrices have different dim, zero matrix returned");
@@ -99,6 +153,11 @@ public class Matrix {
         return temp;
     }
 
+    /**
+     * Разность матриц
+     * @param second Вычитаемая матрица
+     * @return матрица поэлементнной разности
+     */
     Matrix diff(Matrix second){
         if (this.n != second.n || this.m != second.m) {
             System.out.println("DimensionError(-): matrices have different dim, zero matrix returned");
@@ -111,6 +170,11 @@ public class Matrix {
         return temp;
     }
 
+    /**
+     * Умножение матриц
+     * @param second второй множитель
+     * @return матрица произведения
+     */
     Matrix mul(Matrix second) {
         if (this.m != second.n) {
             System.out.println("DimensionError(*): matrices have wrong dim, zero matrix returned");
@@ -128,17 +192,29 @@ public class Matrix {
         return temp;
     }
 
+    /**
+     * Умножение на комплексное число
+     * @param number комплексное число, на которое умножать
+     */
     void mul_number(Complex number) {
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < m; j++) { this.matrix[i][j] = this.matrix[i][j].mul(number); }
         }
     }
+
+    /**
+     * Умножение на действительное число
+     * @param number действительное число, на которое умножать
+     */
     void mul_number(double number) {
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < m; j++) { this.matrix[i][j].real *= number; this.matrix[i][j].imag *= number; }
         }
     }
 
+    /**
+     * Транспонирование матрицы
+     */
     void T() {
         Matrix temp = new Matrix(this.m, this.n);
         for (int i = 0; i < m; i++) {
@@ -151,6 +227,10 @@ public class Matrix {
         this.n = temp.n; this.m = temp.m;
     }
 
+    /**
+     * Возведение в степень
+     * @param n степень
+     */
     void pow(int n) {
         if (this.n != this.m) {
             System.out.println("DimensionError(pow): pow available only for square matrix");
@@ -165,6 +245,10 @@ public class Matrix {
         }
     }
 
+    /**
+     * Определитель матрицы
+     * @return определитель матрицы ввиде комплекного числа
+     */
     Complex determinant() {
         if (this.n != this.m) {
             System.out.println("DimensionError(det): determinant available only for square matrix");
@@ -181,6 +265,13 @@ public class Matrix {
         return det;
     }
 
+    /**
+     * Вспомогательная функция для вычисления минора
+     * @param matrix исходная матрица
+     * @param row вычёркиваемая строка
+     * @param col вычёркиваемый столбец
+     * @return минор по элементу
+     */
     private Matrix minor(Matrix matrix, int row, int col) {
         Matrix temp = new Matrix(matrix.n - 1, matrix.m - 1);
         int flag_row = 0, flag_col;
@@ -195,6 +286,10 @@ public class Matrix {
         return temp;
     }
 
+    /**
+     * Обратная матрица
+     * @return обратная матрица
+     */
     Matrix inverse() {
         if (this.n != this.m) {
             System.out.println("DimensionError(inv): inverse matrix available only for square matrix");
@@ -220,5 +315,15 @@ public class Matrix {
         minor_matrix.T();
         minor_matrix.mul_number(a.div(det));
         return minor_matrix;
+    }
+
+    /**
+     * Вывод матрицы
+     */
+    void print() {
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) { System.out.printf(" %-8s", matrix[i][j].asString()); }
+            System.out.print('\n');
+        }
     }
 }

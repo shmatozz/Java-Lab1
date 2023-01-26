@@ -10,20 +10,24 @@ class Main {
         Complex test = new Complex(number2);    // Тестовая переменная
 
         System.out.print("number1 = "); number1.println();
+        System.out.print("trig number1 = "); number1.printTrig();
+        System.out.print("exp number1 = "); number1.printExp();
         System.out.print("number2 = "); number2.println();
+        System.out.print("trig number2 = "); number2.printTrig();
+        System.out.print("exp number2 = "); number2.printExp();
         System.out.print("\nCopy of number2 = "); test.println();
 
         System.out.print("number2 + number1 = ");   // Testing +
-        number2.sum(number1).println();
+        number2.sum(number1).println();   // 'sum' return new object
 
         System.out.print("number2 - number1 = ");   // Testing -
-        number2.diff(number1).println();
+        number2.diff(number1).println();   // 'diff' return new object
 
         System.out.print("number2 * number1 = ");   // Testing *
-        number2.mul(number1).println();
+        number2.mul(number1).println();   // 'mul' return new object
 
         System.out.print("number2 / number1 = ");   // Testing /
-        number2.div(number1).println();
+        number2.div(number1).println();   // 'div' return new object
 
         System.out.printf("|number1| = " + round.format(number1.abs()) + '\n');    // Testing abs
         System.out.printf("Arg(number1) = " + round.format(number2.arg()) + '\n');    // Testing arg
@@ -33,16 +37,16 @@ class Main {
         System.out.print("number2^2 = ");
         number2.pow(2).println();
 
-        System.out.print("number1^(1/2) = ");   // Testing sqrt
-        number1.sqrt(2).println();
+        System.out.print("number1^(1/2) = ");   // Testing root
+        number1.root(2).println();   // 'root' return new object
         System.out.print("number2^(1/3) = ");
-        number2.sqrt(3).println();
+        number2.root(3).println();
 
 
         System.out.println("\n--- Matrix ---");
         Matrix matrix1 = new Matrix(3, 3), matrix2 = new Matrix(3, 3);
         matrix1.fillRandInt();
-        matrix2.fillRandInt();
+        matrix2.fillRandComplex();
         System.out.println("matrix1:"); matrix1.print();
         System.out.println("det(matrix1):");   // Testing determinant
         matrix1.determinant().println();
@@ -87,5 +91,4 @@ class Main {
         System.out.println("matrix1 * matrix1.inv = E:");   // E - unit matrix (Еденичная матрица)
         matrix1.mul(matrix1_inv).print();
     }
-
 }
