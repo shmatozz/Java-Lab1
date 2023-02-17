@@ -59,53 +59,14 @@ public class Matrix {
     }
 
     /**
-     * Заполнение матрицы
+     * Сеттер элементов матрицы
+     * @param i строка
+     * @param j столбец
+     * @param number число
      */
-    void fill() {
-        for (int i = 0; i < n; i++) {
-            System.out.println("Row " + (i + 1));
-            for (int j = 0; j < m; j++) {
-                System.out.print("matrix[" + i + ']' + '[' + j + "] = ");
-                matrix[i][j].get();
-            }
-        }
-    }
-
-    /**
-     * Заполнение случайными целыми числами
-     */
-    void fillRandInt() {
-        Random random = new Random();
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < m; j++) {
-                matrix[i][j].real = random.nextInt() % 10;
-            }
-        }
-    }
-
-    /**
-     * Заполнение случайными вещественными числами
-     */
-    void fillRandDouble() {
-        Random random = new Random();
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < m; j++) {
-                matrix[i][j].real = random.nextDouble();
-            }
-        }
-    }
-
-    /**
-     * Заполнение случайными комплексными числами
-     */
-    void fillRandComplex() {
-        Random random = new Random();
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < m; j++) {
-                matrix[i][j].real = random.nextInt() % 10;
-                matrix[i][j].imag = random.nextInt() % 10;
-            }
-        }
+    void set(int i, int j, Complex number) {
+        this.matrix[i][j].setReal(number.getReal());
+        this.matrix[i][j].setImag(number.getImag());
     }
 
     /**
@@ -132,7 +93,7 @@ public class Matrix {
             return;
         }
         for (int i = 0; i < n; i++) {
-            for (int j = 0; j < m; j++) { this.matrix[i][j].sub(second.matrix[i][j]); }
+            for (int j = 0; j < m; j++) { matrix[i][j].sub(second.matrix[i][j]); }
         }
     }
 
@@ -208,7 +169,7 @@ public class Matrix {
      */
     void mul_number(double number) {
         for (int i = 0; i < n; i++) {
-            for (int j = 0; j < m; j++) { this.matrix[i][j].real *= number; this.matrix[i][j].imag *= number; }
+            for (int j = 0; j < m; j++) { this.set(i, j, new Complex(matrix[i][j].getReal() * number, matrix[i][j].getImag() * number)); }
         }
     }
 
@@ -300,7 +261,7 @@ public class Matrix {
             return this;
         }
         Complex det = this.determinant();
-        if (det.real == 0 && det.imag == 0) {
+        if (det.getReal() == 0 && det.getImag() == 0) {
             System.out.println("MathError(inv): inverse matrix is NOT available for singular matrix");
             return this;
         }
@@ -315,15 +276,5 @@ public class Matrix {
         minor_matrix.T();
         minor_matrix.mul_number(a.div(det));
         return minor_matrix;
-    }
-
-    /**
-     * Вывод матрицы
-     */
-    void print() {
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < m; j++) { System.out.printf(" %-8s", matrix[i][j].asString()); }
-            System.out.print('\n');
-        }
     }
 }

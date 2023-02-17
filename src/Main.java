@@ -9,86 +9,80 @@ class Main {
         Complex number2 = new Complex(2, -4);    // Число 2
         Complex test = new Complex(number2);    // Тестовая переменная
 
-        System.out.print("number1 = "); number1.println();
-        System.out.print("trig number1 = "); number1.printTrig();
-        System.out.print("exp number1 = "); number1.printExp();
-        System.out.print("number2 = "); number2.println();
-        System.out.print("trig number2 = "); number2.printTrig();
-        System.out.print("exp number2 = "); number2.printExp();
-        System.out.print("\nCopy of number2 = "); test.println();
+        System.out.print("number1 = ");           ComplexIO.println(number1);
+        System.out.print("trig number1 = ");      ComplexIO.printTrig(number1);
+        System.out.print("exp number1 = ");       ComplexIO.printExp(number1);
+        System.out.print("number2 = ");           ComplexIO.println(number2);
+        System.out.print("trig number2 = ");      ComplexIO.printTrig(number2);
+        System.out.print("exp number2 = ");       ComplexIO.printExp(number2);
+        System.out.print("\nCopy of number2 = "); ComplexIO.println(test);
 
         System.out.print("number2 + number1 = ");   // Testing +
-        number2.sum(number1).println();   // 'sum' return new object
+        ComplexIO.println(number2.sum(number1));   // 'sum' return new object
 
         System.out.print("number2 - number1 = ");   // Testing -
-        number2.diff(number1).println();   // 'diff' return new object
+        ComplexIO.println(number2.diff(number1));   // 'diff' return new object
 
         System.out.print("number2 * number1 = ");   // Testing *
-        number2.mul(number1).println();   // 'mul' return new object
+        ComplexIO.println(number2.mul(number1));   // 'mul' return new object
 
         System.out.print("number2 / number1 = ");   // Testing /
-        number2.div(number1).println();   // 'div' return new object
+        ComplexIO.println(number2.div(number1));   // 'div' return new object
 
         System.out.printf("|number1| = " + round.format(number1.abs()) + '\n');    // Testing abs
         System.out.printf("Arg(number1) = " + round.format(number2.arg()) + '\n');    // Testing arg
 
         System.out.print("number1^3 = ");   // Testing pow
-        number1.pow(3).println();
+        ComplexIO.println(number1.pow(3));
         System.out.print("number2^2 = ");
-        number2.pow(2).println();
+        ComplexIO.println(number2.pow(2));
 
         System.out.print("number1^(1/2) = ");   // Testing root
-        number1.root(2).println();   // 'root' return new object
+        ComplexIO.println(number1.root(2));   // 'root' return new object
         System.out.print("number2^(1/3) = ");
-        number2.root(3).println();
+        ComplexIO.println(number2.root(3));
 
 
         System.out.println("\n--- Matrix ---");
         Matrix matrix1 = new Matrix(3, 3), matrix2 = new Matrix(3, 3);
-        matrix1.fillRandInt();
-        matrix2.fillRandComplex();
-        System.out.println("matrix1:"); matrix1.print();
+        MatrixIO.fillRandInt(matrix1);
+        MatrixIO.fillRandComplex(matrix2);
+        System.out.println("matrix1:"); MatrixIO.print(matrix1);
         System.out.println("det(matrix1):");   // Testing determinant
-        matrix1.determinant().println();
-        System.out.println("matrix2:"); matrix2.print();
+        ComplexIO.println(matrix1.determinant());
+
+        System.out.println("matrix2:"); MatrixIO.print(matrix2);
         System.out.println("det(matrix2):");   // Testing determinant
-        matrix2.determinant().println();
-
-        System.out.println("\nmatrix1 += matrix2 (in-place):");
-        matrix1.add(matrix2);   // In-place addition
-        matrix1.print();
-
-        System.out.println("matrix1 -= matrix2 (in-place):");
-        matrix1.sub(matrix2);   // In-place subtraction
-        matrix1.print();
+        ComplexIO.println(matrix2.determinant());
 
         System.out.println("matrix1 + matrix2 (returns new matrix):");   // Testing sum(+) of matrices, returns new matrix
-        matrix1.sum(matrix2).print();
+        MatrixIO.print(matrix1.sum(matrix2));
 
         System.out.println("matrix1 - matrix2 (returns new matrix):");   // Testing diff(-) of matrices, returns new matrix
-        matrix1.diff(matrix2).print();
+        MatrixIO.print(matrix1.diff(matrix2));
 
         System.out.println("matrix1 * matrix2 (returns new matrix):");   // Testing mul(*) of matrices, returns new matrix
-        matrix1.mul(matrix2).print();
+        MatrixIO.print(matrix1.mul(matrix2));
 
         System.out.println("matrix1 * 5:");   // Testing mul(*) on const of matrix
         matrix1.mul_number(5);
-        matrix1.print();
+        MatrixIO.print(matrix1);
         matrix1.mul_number(0.2);
 
         System.out.println("Transposed matrix1:");   // Testing transposing of matrix
         matrix1.T();
-        matrix1.print();
+        MatrixIO.print(matrix1);
 
         System.out.println("(matrix2)^2:");   // Testing pow of matrix
         matrix2.pow(2);
-        matrix2.print();
+        MatrixIO.print(matrix2);
 
         System.out.println("matrix1.inv:");   // Testing inversion of matrix
         Matrix matrix1_inv = matrix1.inverse();
-        matrix1_inv.print();
+        MatrixIO.print(matrix1_inv);
 
         System.out.println("matrix1 * matrix1.inv = E:");   // E - unit matrix (Еденичная матрица)
-        matrix1.mul(matrix1_inv).print();
+        MatrixIO.print(matrix1.mul(matrix1_inv));
+
     }
 }

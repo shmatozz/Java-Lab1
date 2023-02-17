@@ -1,16 +1,11 @@
-import java.text.DecimalFormat;
-import java.util.Scanner;
-
 /**
  * Комплексные числа
  */
 public class Complex {
-    static DecimalFormat round = new DecimalFormat("#.###");
-    static double error = Math.pow(10, -10);
     /**
      * Действительная и мнимая части
      */
-    double real, imag;
+    private double real, imag;
 
     /**
      * Конструктор по умолчанию
@@ -41,13 +36,35 @@ public class Complex {
     }
 
     /**
-     * Ввод комплексного числа
+     * Сеттер действительной части
+     * @param real действительная часть
      */
-    void get() {
-        Scanner in = new Scanner(System.in);
-        System.out.print("real and imag: ");
-        this.real = in.nextDouble();
-        this.imag = in.nextDouble();
+    void setReal(double real) {
+        this.real = real;
+    }
+
+    /**
+     * Геттер действительной части
+     * @return действительная часть числа
+     */
+    double getReal() {
+        return this.real;
+    }
+
+    /**
+     * Геттер мнимой части
+     * @return мнимая часть числа
+     */
+    double getImag() {
+        return this.imag;
+    }
+
+    /**
+     * Сеттер мнимой части
+     * @param imag мнимая часть
+     */
+    void setImag(double imag) {
+        this.imag = imag;
     }
 
     /**
@@ -55,8 +72,8 @@ public class Complex {
      * @param second добавляемое число
      */
     void add(Complex second) {
-        this.real += second.real;
-        this.imag += second.imag;
+        this.real += second.getReal();
+        this.imag += second.getImag();
     }
 
     /**
@@ -64,8 +81,8 @@ public class Complex {
      * @param second вычитаемое число
      */
     void sub(Complex second) {
-        this.real -= second.real;
-        this.imag -= second.imag;
+        this.real -= second.getReal();
+        this.imag -= second.getImag();
     }
 
     /**
@@ -74,9 +91,7 @@ public class Complex {
      * @return сумма чисел
      */
     Complex sum(Complex second) {
-        Complex temp = new Complex();
-        temp.real = this.real + second.real;
-        temp.imag = this.imag + second.imag;
+        Complex temp = new Complex(this.real + second.getReal(), this.imag + second.getImag());
         return temp;
     }
 
@@ -86,9 +101,7 @@ public class Complex {
      * @return разность чисел
      */
     Complex diff(Complex second) {
-        Complex temp = new Complex();
-        temp.real = this.real - second.real;
-        temp.imag = this.imag - second.imag;
+        Complex temp = new Complex(this.real - second.getReal(), this.imag - second.getImag());
         return temp;
     }
 
@@ -158,67 +171,5 @@ public class Complex {
         temp.real = Math.pow(this.abs(), 1.0/n) * Math.cos(this.arg() / n);
         temp.imag = Math.pow(this.abs(), 1.0/n) * Math.sin(this.arg() / n);
         return temp;
-    }
-
-    /**
-     * Вывод числа без переноса строки
-     */
-    void print() {
-        if (this.real == 0 && this.imag != 0) {
-            System.out.print(round.format(imag) + "j ");
-        } else if (this.imag > 0) {
-            System.out.print(round.format(real) + " + " + round.format(imag) + "j ");
-        } else if (this.imag < 0){
-            System.out.print(round.format(real) + " - " + (round.format(imag * -1)) + "j ");
-        } else {
-            System.out.print(round.format(real) + " ");
-        }
-    }
-
-    /**
-     * Вывод числа с переносом строки
-     */
-    void println() {
-        if (Math.abs(this.real) < error && Math.abs(this.imag) > error) {
-            System.out.println(round.format(imag) + "j");
-        } else if (this.imag > error) {
-            System.out.println(round.format(real) + " + " + round.format(imag) + "j");
-        } else if (this.imag < -error){
-            System.out.println(round.format(real) + " - " + (round.format(imag * -1)) + "j");
-        } else {
-            if (Math.abs(real) < error && real < 0) this.real = 0;
-            System.out.println(round.format(real));
-        }
-    }
-
-    /**
-     * Вывод в тригонометрической форме
-     */
-    void printTrig() {
-        System.out.printf("%.3f * (cos(%.3f) + j*sin(%.3f))\n", this.abs(), this.arg(), this.arg());
-    }
-
-    /**
-     * Вывод в показательной форме
-     */
-    void printExp() {
-        System.out.printf("%.3f * e^(j * %.3f)\n", this.abs(), this.arg());
-    }
-
-    /**
-     * Запись числа в String
-     * @return строка с алгебраической записью числа
-     */
-    String asString() {
-        if (Math.abs(this.real) < error && Math.abs(this.imag) > error) {       // real = 0 & imag != 0
-            return round.format(imag) + "j ";
-        } else if (this.imag > error) {     // imag > 0
-            return round.format(real) + " + " + round.format(imag) + "j ";
-        } else if (this.imag < -error){     // imag < 0
-            return round.format(real) + " - " + (round.format(imag * -1)) + "j ";
-        } else {
-            if (Math.abs(real) < error && real < 0) this.real = 0;
-            return round.format(real) + " ";
-        }
     }
 }
